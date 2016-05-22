@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import java.io.File;
@@ -191,7 +192,7 @@ public class ViewCreator {
                 if (!hasFocus) {
                     //todo write showTextView, handling situation when TextView is already shown
                     note.setText(editText.getText().toString());
-                    NotesKeeper.update(note);
+                    NoteHelper.updateNote(note);
                     textView.setText(note.getText());
                     vs.showPrevious();
                 }
@@ -279,7 +280,11 @@ public class ViewCreator {
      * @param note has to be delete
      */
     private void deleteNote(Note note) {
-        NotesKeeper.remove(note);
-        Note.drawNotes(activity, NotesKeeper.getInstance(activity).getAllNotes());
+      //  NotesKeeper.remove(note);
+     //   Note.drawNotes(activity, NotesKeeper.getInstance(activity).getAllNotes());
+        NoteHelper.deleteNote(note);
+        NoteHelper.drawAllNotes(activity);
+        Toast toast = Toast.makeText(activity.getApplicationContext(), "Удалено", Toast.LENGTH_SHORT);
+        toast.show();
     }
 }

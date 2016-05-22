@@ -7,15 +7,16 @@ import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
-    NotesKeeper notesKeeper;
+   // NotesKeeper notesKeeper;
     PhotoButtonHandler photoButtonHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        DatabaseHelper.tempContext = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        notesKeeper = NotesKeeper.getInstance(this);
+     //   notesKeeper = NotesKeeper.getInstance(this);
 
         ButtonsHandler textButton = new ButtonsHandler(this, R.id.addNoteByTextButton);
         ButtonsHandler voiceButton = new ButtonsHandler(this, R.id.addVoiceNoteButton);
@@ -26,17 +27,21 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+        DatabaseHelper.tempContext = this;
         super.onStart();
-        notesKeeper = NotesKeeper.getInstance(this);
-        Note.drawNotes(this, notesKeeper.getAllNotes());
+      //  notesKeeper = NotesKeeper.getInstance(this);
+      //  Note.drawNotes(this, notesKeeper.getAllNotes());
+        NoteHelper.drawAllNotes(this);
     }
 
 
     @Override
     protected void onResume() {
+        DatabaseHelper.tempContext = this;
         super.onResume();
-        notesKeeper = NotesKeeper.getInstance(this);
-        Note.drawNotes(this, notesKeeper.getAllNotes());
+      //  notesKeeper = NotesKeeper.getInstance(this);
+     //   Note.drawNotes(this, notesKeeper.getAllNotes());
+        NoteHelper.drawAllNotes(this);
     }
 
     @Override

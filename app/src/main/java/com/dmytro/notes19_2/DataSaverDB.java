@@ -11,6 +11,7 @@ import java.util.ArrayList;
 /**
  * Class that is responsible for interaction with DataBase
  */
+@Deprecated
 public class DataSaverDB {
     private DatabaseHelper mDatabaseHelper;
     private SQLiteDatabase mDatabase;
@@ -23,7 +24,7 @@ public class DataSaverDB {
      * @param context
      */
     private DataSaverDB(Context context) {
-        mDatabaseHelper = new DatabaseHelper(context);
+        mDatabaseHelper = new DatabaseHelper();
         mDatabase = mDatabaseHelper.getWritableDatabase();
     }
 

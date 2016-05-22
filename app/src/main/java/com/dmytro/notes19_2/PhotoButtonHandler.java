@@ -34,7 +34,7 @@ public class PhotoButtonHandler extends Activity {
     private File photoFile;
 
     //Notes keeper instance
-    NotesKeeper notesKeeper;
+    //NotesKeeper notesKeeper;
 
     /**
      * Constructor
@@ -45,7 +45,7 @@ public class PhotoButtonHandler extends Activity {
         this.idPhotoButton = photoButtonId;
         photoButton = (Button) activity.findViewById(idPhotoButton);///1
         this.mainActivity = activity;
-        this.notesKeeper = NotesKeeper.getInstance(activity);
+       // this.notesKeeper = NotesKeeper.getInstance(activity);
         Button photoButton = (Button) activity.findViewById(idPhotoButton);
         photoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +118,7 @@ public class PhotoButtonHandler extends Activity {
      */
     public void handleResult(int requestCode, int resultCode, Intent data) {
         Note newNote = new Note(photoFile);
-        notesKeeper.add(newNote);
+        NoteHelper.addNote(newNote);
         ViewCreator viewCreator = new ViewCreator(mainActivity, newNote);
     }
 }

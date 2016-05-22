@@ -3,7 +3,7 @@ package com.dmytro.notes19_2;
 import android.content.Context;
 
 import java.util.ArrayList;
-
+@Deprecated
 public class NotesKeeper {
     private static NotesKeeper instance;
     private static ArrayList<Note> notes;
