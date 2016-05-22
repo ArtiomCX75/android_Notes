@@ -6,8 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * //todo description
- */
+        * db helper
+        * all work with db will be via this class
+*/
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     //name of DB
@@ -39,14 +40,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + LAST_UPDATE_DATE_COLUMN  + " integer,"
             + ARCHIVED_NOTE_COLUMN     + " integer);";
 
-
+public static Context tempContext;
     /**
      * creator
      *
      * @param context activity
      */
-    public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+
+    private static SQLiteDatabase db;
+    public static SQLiteDatabase getDB() {
+        if (db == null) {
+            db = new DatabaseHelper().getWritableDatabase();
+        }
+        return db;
+    }
+
+    public DatabaseHelper() {
+        super(tempContext, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     /**
@@ -84,5 +94,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF IT EXISTS " + DATABASE_TABLE);
         // create new one
         onCreate(db);
+    }
+
+    public static void addValue(Context context, String tableName, ContentValues value){
+        getDB().insert(DATABASE_TABLE, null, value);
     }
 }

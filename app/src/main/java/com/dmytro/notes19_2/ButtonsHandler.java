@@ -13,12 +13,13 @@ public class ButtonsHandler {
     private Button makeNewNote;
     private SpeechHandler speechHandler;
     private PhotoButtonHandler photoHandler;
+    private boolean isSpeechRecognizerStart=false; //additional verification of speech recognizer
 
     private final int TEXT_BUTTON_ID = R.id.addNoteByTextButton;
     private final int VOICE_BUTTON_ID = R.id.addVoiceNoteButton;
     private final int PHOTO_BUTTON_ID = R.id.addPhotoNoteButton;
 
-    NotesKeeper notesKeeper;
+   // NotesKeeper notesKeeper;
 
     /**
      * Constructor
@@ -44,6 +45,31 @@ public class ButtonsHandler {
         }
     }
 
+    private void setTextButtonHandler(final Activity activity, int text_button_id) {
+        // notesKeeper = NotesKeeper.getInstance(activity);
+        makeNewNote = (Button) activity.findViewById(R.id.addNoteByTextButton);
+
+        makeNewNote.setOnClickListener(new View.OnClickListener() {
+            /**
+             * Called when a view has been clicked.
+             * Create new empty Note,
+             * pass it to ViewCreator
+             * asks ViewCreator to show EditText
+             *
+             * @param v The view that was clicked.
+             */
+            @Override
+            public void onClick(View v) {
+                Note newNote = new Note("");
+           //     notesKeeper.add(newNote);
+                NoteHelper.addNote(newNote);
+                ViewCreator viewCreator = new ViewCreator(activity, newNote);
+                viewCreator.changeToEditText(activity);
+            }
+        });
+
+    }
+
     /**
      * Initializing voice button actions
      *
@@ -59,10 +85,12 @@ public class ButtonsHandler {
         makeNewNote.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                if ((event.getAction() == MotionEvent.ACTION_DOWN)&&!isSpeechRecognizerStart) {
+                    isSpeechRecognizerStart=true;
                     startSpeech();
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                } else if ((event.getAction() == MotionEvent.ACTION_UP)&&isSpeechRecognizerStart) {
                     stopSpeech();
+                    isSpeechRecognizerStart=false;
                 }
                 return false;
             }
@@ -89,6 +117,7 @@ public class ButtonsHandler {
     }
 
 
+
     private void setTextButtonHandler(final Activity activity, int text_button_id) {
         notesKeeper = NotesKeeper.getInstance(activity);
         makeNewNote = (Button) activity.findViewById(text_button_id);
@@ -113,7 +142,9 @@ public class ButtonsHandler {
 
     }
 
+
     public PhotoButtonHandler getPhotoButtonHandlerInstance() {
         return photoHandler;
     }
+
 }

@@ -2,6 +2,7 @@ package com.dmytro.notes19_2;
 
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.graphics.Color;
 import android.widget.LinearLayout;
 
@@ -31,6 +32,14 @@ public class Note implements Serializable {
 
     //for photo note
     String photoFilePath = null;
+
+    /**
+     * Constructor
+     * for empty notes
+     *
+     */
+    public Note() {
+    }
 
     /**
      * Constructor
@@ -65,6 +74,8 @@ public class Note implements Serializable {
      * @param textOfNote    of Note
      * @param photoFilePath of Note
      */
+
+    @Deprecated
     public Note(int id, int colorOfNote, String textOfNote, String photoFilePath) {
         this.id = id;
         this.colorOfNote = colorOfNote;
@@ -72,6 +83,17 @@ public class Note implements Serializable {
         this.photoFilePath = photoFilePath;
     }
 
+    //protected methods
+    /**
+     *
+     *
+     * @param  id of note
+     * @return note
+     */
+    protected Note setID(int id) {
+        this.id=id;
+        return this;
+    }
 
     //public methods
 
@@ -114,30 +136,6 @@ public class Note implements Serializable {
 
     //public static methods
 
-    /**
-     * Draw all notes in array,
-     * if they haven't drawn yet
-     *
-     * @param activity we are working with
-     * @param notes    array of notes need to be drawn
-     */
-    public static void drawNotes(Activity activity, ArrayList<Note> notes) {
-        LinearLayout layout = (LinearLayout) activity.findViewById(R.id.layoutNotesKeeper);
-        layout.removeAllViews();
-
-        //null and empty array handler
-        if (notes == null || notes.size() == 0) {
-            return;
-        }
-
-        //check are there any notes on the layout
-        //if no - draw all notes
-        if (activity.findViewById(notes.get(0).getID()) == null) {
-            for (Note note : notes) {
-                ViewCreator viewCreator = new ViewCreator(activity, note);
-            }
-        }
-    }
 
 
     /**
@@ -154,37 +152,78 @@ public class Note implements Serializable {
      * needs fo manual (outside of constructor) changing of the text of note
      *
      * @param text of the note
+     * @return note
      */
-    public void setText(String text) {
+    public Note setText(String text) {
         this.textOfNote = text;
+        return this;
     }
 
+    /**
+     * setting photoFilePath of note
+     * @param photoFilePath of the note
+     * @return note
+     */
+    public Note setPhotoFilePath(String photoFilePath) {
+        this.photoFilePath=photoFilePath;
+        return this;
+    }
 
     /**
      * Needs for manual (outside of constructor) changing of color of note
      *
      * @param color color we want to set for note
+     * @return note
      */
-    public void setColor(int color) {
+    public Note setColor(int color) {
         this.colorOfNote = color;
+        return this;
     }
 
     //private methods
 
     /**
      * sets random background color (from array) for note
+     * @return note
      */
-    private void setBackgroundColorOfNote() {
+    private Note setBackgroundColorOfNote() {
         Random rnd = new Random();
 //        getting random color from array of colors
         colorOfNote = colors[Math.abs(rnd.nextInt()) % colors.length];
+        return this;
     }
 
     /**
      * setting id of note
+     * @return note
      */
-    private void setID() {
+    private Note setID() {
         id = 1 + idGenerator++;
+        return this;
+    }
+
+
+
+
+    /**
+     * Forming Content to DB from Note
+     * (preparing data to put in DB)
+     *
+     * @return ContentValues - data ready to put in DB
+     */
+    public ContentValues toContentValue() {
+        ContentValues value = new ContentValues();
+
+        value.put(DatabaseHelper.NOTE_ID_COLUMN, getID());
+        value.put(DatabaseHelper.NOTE_TEXT_COLUMN, getText());
+        value.put(DatabaseHelper.NOTE_COLOR_COLUMN, getColor());
+        value.put(DatabaseHelper.NOTE_PHOTO_PATH_COLUMN, getPhotoPath());
+        //temporary
+        value.put(DatabaseHelper.CREATION_DATE_COLUMN, 0);
+        value.put(DatabaseHelper.LAST_UPDATE_DATE_COLUMN, 0);
+        value.put(DatabaseHelper.ARCHIVED_NOTE_COLUMN, 0);
+
+        return value;
     }
 
 }

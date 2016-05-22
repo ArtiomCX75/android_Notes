@@ -11,7 +11,7 @@
     android:id="@+id/layout">
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/relativeLayout"
@@ -22,38 +22,31 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/startButtonName"
-            android:id="@+id/addVoiceNoteButton"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+            android:text="@string/textButtonName"
+            android:id="@+id/addNoteByTextButton"
+            android:layout_weight="1" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/textButtonName"
-            android:id="@+id/addNoteByTextButton"
-            android:layout_alignParentTop="true"
-            android:layout_toStartOf="@+id/addVoiceNoteButton"
-            android:layout_marginEnd="29dp" />
+            android:text="@string/startButtonName"
+            android:id="@+id/addVoiceNoteButton"
+            android:layout_weight="1" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/AddPhotoNoteButton"
             android:id="@+id/addPhotoNoteButton"
-            android:layout_marginStart="29dp"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/addVoiceNoteButton" />
+            android:layout_weight="1" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/scrollView"
-        android:layout_marginTop="57dp"
-
-        android:layout_alignParentStart="true">
+        android:layout_marginTop="57dp">
 
         <LinearLayout
             android:id="@+id/layoutNotesKeeper"

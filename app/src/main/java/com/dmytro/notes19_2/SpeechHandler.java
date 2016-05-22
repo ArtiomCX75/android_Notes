@@ -29,7 +29,7 @@ public class SpeechHandler implements RecognitionListener {
     private Activity activity;
 
     //instance of NotesKeeper
-    private NotesKeeper notesKeeper;
+  //  private NotesKeeper notesKeeper;
 
     private SpeechRecognizer sr;
 
@@ -38,9 +38,10 @@ public class SpeechHandler implements RecognitionListener {
      *
      * @param activity current activity
      */
-    public SpeechHandler(Activity activity) {
+
+    public SpeechHandler(Activity activity) { //public
         this.activity = activity;
-        notesKeeper = NotesKeeper.getInstance(activity);
+        //notesKeeper = NotesKeeper.getInstance(activity); ///????????
     }
 
     //public methods:
@@ -137,7 +138,7 @@ public class SpeechHandler implements RecognitionListener {
      */
     private void handleResult() {
         Note newNote = new Note(getRecognizedText());
-        notesKeeper.add(newNote);
+        NoteHelper.addNote(newNote);
         ViewCreator view = new ViewCreator(activity, newNote);
     }
 
